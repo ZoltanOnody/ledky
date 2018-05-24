@@ -8,45 +8,46 @@ import pigpio
 class Light:
     def __init__(self):
         self.rpi = pigpio.pi()
-        self.pin_r = 17
-        self.pin_g = 18
-        self.pin_b = 21
-        self.pin_power = 20
-        self.rpi.set_mode(self.pin_r, pigpio.OUTPUT)
-        self.rpi.set_mode(self.pin_g, pigpio.OUTPUT)
-        self.rpi.set_mode(self.pin_b, pigpio.OUTPUT)
-        
-        self.rpi.set_mode(self.pin_power, pigpio.OUTPUT)    
+        self._PIN_r = 17
+        self._PIN_R = 18
+        self._PIN_B = 21
+        self._PIN_POWER = 20
+        self.rpi.set_mode(self._PIN_R, pigpio.OUTPUT)
+        self.rpi.set_mode(self._PIN_R, pigpio.OUTPUT)
+        self.rpi.set_mode(self._PIN_B, pigpio.OUTPUT)
 
-        self.rpi.set_PWM_dutycycle(self.pin_r,0)
-        self.rpi.set_PWM_dutycycle(self.pin_g,0)
-        self.rpi.set_PWM_dutycycle(self.pin_b,0)
-        
-        self.rpi.set_PWM_frequency(self.pin_r,200)
-        self.rpi.set_PWM_frequency(self.pin_g,200)
-        self.rpi.set_PWM_frequency(self.pin_b,200)
+        self.rpi.set_mode(self._PIN_POWER, pigpio.OUTPUT)
+
+        self.rpi.set_PWM_dutycycle(self._PIN_R, 0)
+        self.rpi.set_PWM_dutycycle(self._PIN_R, 0)
+        self.rpi.set_PWM_dutycycle(self._PIN_B, 0)
+
+        self.rpi.set_PWM_frequency(self._PIN_R, 200)
+        self.rpi.set_PWM_frequency(self._PIN_R, 200)
+        self.rpi.set_PWM_frequency(self._PIN_B, 200)
 
     def set(self, r, g, b):
-        self.rpi.set_PWM_dutycycle(self.pin_r, r)
-        self.rpi.set_PWM_dutycycle(self.pin_g, g)
-        self.rpi.set_PWM_dutycycle(self.pin_b, b)
-                
+        self.rpi.set_PWM_dutycycle(self._PIN_R, r)
+        self.rpi.set_PWM_dutycycle(self._PIN_R, g)
+        self.rpi.set_PWM_dutycycle(self._PIN_B, b)
 
     def get(self):
-        r = self.rpi.get_PWM_dutycycle(self.pin_r)
-        g = self.rpi.get_PWM_dutycycle(self.pin_g)
-        b = self.rpi.get_PWM_dutycycle(self.pin_b)
+        r = self.rpi.get_PWM_dutycycle(self._PIN_R)
+        g = self.rpi.get_PWM_dutycycle(self._PIN_R)
+        b = self.rpi.get_PWM_dutycycle(self._PIN_B)
         return r, g, b
+
     def set_power(self):
         r, g, b = self.get()
         if r == g == b == 0:
-            self.rpi.write(self.pin_power,0)
+            self.rpi.write(self._PIN_POWER, 0)
         else:
-            self.rpi.write(self.pin_power,1)
+            self.rpi.write(self._PIN_POWER, 1)
 
 light = Light()
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
