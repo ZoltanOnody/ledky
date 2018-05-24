@@ -31,7 +31,7 @@ class App extends Component {
   setColor(r, g, b) {
     this.getXMLHttpRequest("POST").send(JSON.stringify({r, g, b}));
   }
-
+  
   render() {
     const {r, g, b} = this.state.color;
     const stringColor = `rgb(${r}, ${g}, ${b})`;
@@ -47,10 +47,22 @@ class App extends Component {
         </p>
 
         <div>
+          <button onClick={() => this.setColor(0, 0, 0)}>Tma</button>
+          <button onClick={() => this.setColor(...[r, g, b].map(x => Math.max(0,Math.floor(x*0.9))))}>Intenzita -10%</button>
+          <button onClick={() => this.setColor(...[r, g, b].map(x => Math.min(255,Math.floor(x*1.1))))}>Intenzita +10%</button>
+        </div>
+        
+        <div>
           <button onClick={() => this.setColor(255, 0, 0)}>Red</button>
           <button onClick={() => this.setColor(0, 255, 0)}>Green</button>
           <button onClick={() => this.setColor(0, 0, 255)}>Blue</button>
+          <button onClick={() => this.setColor(255,147,41)}>Sviečka</button>
+          <button onClick={() => this.setColor(255,255,255)}>100%</button>
+          <button onClick={() => this.setColor(255,73,18)}>Maťova žiarovka</button>
+          <button onClick={() => this.setColor(50,30,10)}>Noc</button>
+          <button onClick={() => this.setColor(126,0,219)}>Vodíková lampa</button>
         </div>
+          
 
         <hr />
 
