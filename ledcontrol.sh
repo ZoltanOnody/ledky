@@ -12,3 +12,4 @@ case $1 in
 4) curl -X POST "http://$ADDR/led" -d "{led12: $2, led13: $3, led14: $4}" --header 'content-type: application/json';;
 5) curl -X POST "http://192.168.1.2:8080" -d '{"r": $2, "g": $3, "b": $4}' --header 'content-type: application/json';;
 esac
+
